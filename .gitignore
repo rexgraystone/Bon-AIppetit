@@ -26,5 +26,8 @@ yarn-error.log*
 /backend/main.py
 /backend/requirements.txt
 /backend/vercel.json
+/backend/app.py
+/backend
+
 
 run_application.sh
