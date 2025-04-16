@@ -113,16 +113,26 @@ function App() {
   useEffect(() => {
     const testConnection = async () => {
       try {
-        const response = await axios.get(testServer);
-        console.log('API Connection:', response.data);
+        console.log('Testing connection to:', testServer);
+        const response = await axios.get(testServer, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log('API Connection Response:', response.data);
         setApiStatus('Bon AIppétit is powered by Gemini 2.0 Flash');
       } catch (error) {
-        console.error('API Connection Error:', error);
-        setApiStatus('API Connection Error - Check console');
+        console.error('API Connection Error Details:', {
+          message: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          url: testServer
+        });
+        setApiStatus(`API Connection Error: ${error.message}`);
       }
     };
     testConnection();
-  }, []);
+  }, [testServer]);
 
   const createNewChat = () => {
     const newChat = {
@@ -157,8 +167,12 @@ function App() {
     setChats(updatedChats);
 
     try {
+      console.log('Sending request to:', server);
       const { data } = await axios.post(server, { userInput: input }, {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
       });
       
       console.log("Raw response data:", data);
