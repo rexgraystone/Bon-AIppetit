@@ -102,8 +102,8 @@ function App() {
   }]);
   const [currentChatId, setCurrentChatId] = useState(1);
   const [showLanding, setShowLanding] = useState(true);
-  const server = 'http://127.0.0.1:8000/api/gemini';
-  const testServer = 'http://127.0.0.1:8000/api/test';
+  const server = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/api/gemini';
+  const testServer = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/api/test';
   const chatLogRef = useRef(null);
 
   // Get current chat messages

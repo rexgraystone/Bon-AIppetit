@@ -21,7 +21,7 @@ if not api_key:
 app = Flask(__name__)
 # Enable CORS for all routes
 CORS(app, resources={r"/*": {
-    "origins": ["http://127.0.0.1:3000", "http://localhost:3000"],
+    "origins": ["*"],  # Allow all origins for Vercel deployment
     "methods": ["GET", "POST", "OPTIONS"],
     "allow_headers": ["Content-Type"]
 }})
@@ -201,10 +201,10 @@ def gemini_api():
 
 if __name__ == '__main__':
     try:
-        host = '127.0.0.1'
-        port = 8000
+        host = '0.0.0.0'  # Listen on all interfaces
+        port = int(os.environ.get('PORT', 8000))  # Use PORT from environment or default to 8000
         print(f"Starting Flask server on http://{host}:{port}")
-        app.run(host=host, port=port, debug=True)
+        app.run(host=host, port=port, debug=False)  # Set debug to False for production
     except Exception as e:
         print(f"Error starting server: {e}")
         sys.exit(1)
