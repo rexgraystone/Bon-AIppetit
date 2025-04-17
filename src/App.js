@@ -65,19 +65,19 @@ const LandingPage = ({ onStartChat }) => {
     <div className="landing-page">
       <div className="landing-content">
         <h1>Welcome to Bon AIppétit</h1>
-        <p>Your AI-powered cooking assistant that helps you create delicious recipes with step-by-step flowcharts.</p>
+        <p>Your AI-powered cooking assistant that helps you create delicious recipes with step-by-step cuisinograms.</p>
         <div className="landing-features">
           <div className="feature">
             <h3>Recipe Generation</h3>
             <p>Get detailed recipes from URLs or dish names</p>
           </div>
           <div className="feature">
-            <h3>Visual Flowcharts</h3>
-            <p>Easy-to-follow step-by-step instructions</p>
+            <h3>Cuisinograms</h3>
+            <p>Recipe flowcharts that contain easy-to-follow step-by-step instructions</p>
           </div>
           <div className="feature">
             <h3>Download Options</h3>
-            <p>Save your flowcharts as SVG or PNG</p>
+            <p>Save your Cuisinograms as SVG or PNG</p>
           </div>
         </div>
         <button className="start-button" onClick={onStartChat}>
@@ -392,7 +392,7 @@ const ChatMessage = ({ message, isFirst }) => {
     const link = document.createElement('a');
     link.href = url;
     // Use recipe name if available, otherwise use default name
-    const filename = message.recipeName ? `${message.recipeName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.svg` : 'recipe-flowchart.svg';
+    const filename = message.recipeName ? `${message.recipeName.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-cuisinogram.svg` : 'cuisinogram.svg';
     link.download = filename;
     
     // Append to body, click, and remove
@@ -420,7 +420,7 @@ const ChatMessage = ({ message, isFirst }) => {
       const link = document.createElement('a');
       link.href = pngUrl;
       // Use recipe name if available, otherwise use default name
-      const filename = message.recipeName ? `${message.recipeName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png` : 'recipe-flowchart.png';
+      const filename = message.recipeName ? `${message.recipeName.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-cuisinogram.png` : 'cuisinogram.png';
       link.download = filename;
       document.body.appendChild(link);
       link.click();
@@ -522,7 +522,7 @@ const ChatMessage = ({ message, isFirst }) => {
             <div className="mermaid-container">
               {renderFailed ? (
                 <div className="fallback-code">
-                  <p>Flowchart:</p>
+                  <p>Cuisinogram:</p>
                   <pre>{message.mermaidCode}</pre>
                 </div>
               ) : (
