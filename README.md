@@ -1,4 +1,5 @@
-# Bon Aippetit
+# Bon AIppétit
 
 ## Description
 
+Bon AIppetit
