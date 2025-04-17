@@ -1,6 +1,7 @@
 # Bon AIppétit 🍳
 
 A web application that transforms recipe URLs into beautiful, easy-to-follow cuisinograms.
+You can find the backend repository [here](https://github.com/rexgraystone/bon-aippetit-backend).
 
 ## ✨ Features
 
