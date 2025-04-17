@@ -106,6 +106,11 @@ function App() {
   const testServer = process.env.REACT_APP_API_URL || 'https://bon-aippetit-backend.onrender.com/api/test';
   const chatLogRef = useRef(null);
 
+  // Configure axios defaults
+  axios.defaults.headers.common['Content-Type'] = 'application/json';
+  axios.defaults.headers.common['Accept'] = 'application/json';
+  axios.defaults.withCredentials = true;
+
   // Get current chat messages
   const currentChat = chats.find(chat => chat.id === currentChatId) || chats[0];
 
@@ -387,7 +392,9 @@ const ChatMessage = ({ message, isFirst }) => {
     // Create a temporary link element
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'recipe-flowchart.svg';
+    // Use recipe name if available, otherwise use default name
+    const filename = message.recipeName ? `${message.recipeName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.svg` : 'recipe-flowchart.svg';
+    link.download = filename;
     
     // Append to body, click, and remove
     document.body.appendChild(link);
@@ -413,7 +420,9 @@ const ChatMessage = ({ message, isFirst }) => {
       const pngUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.href = pngUrl;
-      link.download = 'recipe-flowchart.png';
+      // Use recipe name if available, otherwise use default name
+      const filename = message.recipeName ? `${message.recipeName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png` : 'recipe-flowchart.png';
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
