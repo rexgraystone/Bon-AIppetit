@@ -109,7 +109,6 @@ function App() {
   // Configure axios defaults
   axios.defaults.headers.common['Content-Type'] = 'application/json';
   axios.defaults.headers.common['Accept'] = 'application/json';
-  axios.defaults.withCredentials = true;
 
   // Get current chat messages
   const currentChat = chats.find(chat => chat.id === currentChatId) || chats[0];
