@@ -6,6 +6,7 @@ import html2canvas from 'html2canvas';
 import './normal.css';
 import './App.css';
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 // Initialize mermaid with better settings for complex diagrams
 mermaid.initialize({
