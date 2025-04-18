@@ -381,26 +381,37 @@ const ChatMessage = ({ message, isFirst }) => {
   const [attemptCount, setAttemptCount] = useState(0);
   const [svgContent, setSvgContent] = useState(null);
 
-  // Function to download SVG
-  const downloadSVG = () => {
+  // Function to download PDF
+  const downloadPDF = async () => {
     if (!svgContent) return;
     
-    // Create a blob from the SVG content
-    const blob = new Blob([svgContent], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(blob);
-    
-    // Create a temporary link element
-    const link = document.createElement('a');
-    link.href = url;
-    // Use recipe name if available, otherwise use default name
-    const filename = message.recipeName ? `${message.recipeName.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-cuisinogram.svg` : 'cuisinogram.svg';
-    link.download = filename;
-    
-    // Append to body, click, and remove
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    try {
+      // Create a new jsPDF instance
+      const { jsPDF } = await import('jspdf');
+      const doc = new jsPDF();
+      
+      // Convert SVG to canvas
+      const canvas = await html2canvas(mermaidRef.current, {
+        backgroundColor: '#f5e6d3',
+        scale: 2,
+        logging: false,
+        useCORS: true,
+        allowTaint: true
+      });
+      
+      // Add the canvas image to the PDF
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      
+      // Use recipe name if available, otherwise use default name
+      const filename = message.recipeName ? `${message.recipeName.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-cuisinogram.pdf` : 'cuisinogram.pdf';
+      doc.save(filename);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
   };
 
   // Function to download PNG
@@ -537,10 +548,10 @@ const ChatMessage = ({ message, isFirst }) => {
                   <div className="download-buttons">
                     <button 
                       className="download-button"
-                      onClick={downloadSVG}
-                      title="Download as SVG"
+                      onClick={downloadPDF}
+                      title="Download as PDF"
                     >
-                      <FaDownload /> SVG
+                      <FaDownload /> PDF
                     </button>
                     <button 
                       className="download-button"
