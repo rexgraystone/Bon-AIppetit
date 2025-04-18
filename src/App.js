@@ -92,7 +92,7 @@ const LandingPage = ({ onStartChat }) => {
 function App() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [apiStatus, setApiStatus] = useState('Checking connection...');
+  const [apiStatus, setApiStatus] = useState('Ready to go! Enter a recipe name or URL to begin.');
   const [chats, setChats] = useState([{
     id: 1,
     title: 'Chat 1',
