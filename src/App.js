@@ -388,7 +388,6 @@ const ChatMessage = ({ message, isFirst }) => {
     try {
       // Create a new jsPDF instance
       const { jsPDF } = await import('jspdf');
-      const doc = new jsPDF();
       
       // Convert SVG to canvas
       const canvas = await html2canvas(mermaidRef.current, {
@@ -399,12 +398,20 @@ const ChatMessage = ({ message, isFirst }) => {
         allowTaint: true
       });
       
-      // Add the canvas image to the PDF
-      const imgData = canvas.toDataURL('image/png');
-      const imgWidth = 210; // A4 width in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      // Get the exact dimensions of the canvas
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
       
-      doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      // Create PDF with exact dimensions (in points, where 1 point = 1/72 inch)
+      const doc = new jsPDF({
+        orientation: canvasWidth > canvasHeight ? 'landscape' : 'portrait',
+        unit: 'pt',
+        format: [canvasWidth, canvasHeight]
+      });
+      
+      // Add the canvas image to the PDF at exact dimensions
+      const imgData = canvas.toDataURL('image/png');
+      doc.addImage(imgData, 'PNG', 0, 0, canvasWidth, canvasHeight);
       
       // Use recipe name if available, otherwise use default name
       const filename = message.recipeName ? `${message.recipeName.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-cuisinogram.pdf` : 'cuisinogram.pdf';
