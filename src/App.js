@@ -78,7 +78,7 @@ const LandingPage = ({ onStartChat }) => {
           </div>
           <div className="feature">
             <h3>Download Options</h3>
-            <p>Save your Cuisinograms as SVG or PNG</p>
+            <p>Save your Cuisinograms as PDF or PNG</p>
           </div>
         </div>
         <button className="start-button" onClick={onStartChat}>
